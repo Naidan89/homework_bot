@@ -118,6 +118,8 @@ def check_tokens():
 def main():
     """Основная логика работы бота."""
     if check_tokens():
+        logger.info('Переменные окружения проверены.')
+    else:
         raise KeyError('Ошибка в обязательных переменных окружения')
     bot = telegram.Bot(token=TELEGRAM_TOKEN)
     current_timestamp = int(time.time())
