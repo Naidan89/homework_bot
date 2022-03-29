@@ -93,19 +93,19 @@ def parse_status(homework):
     """Проверка статуса домашнего задания."""
     try:
         homework_name = homework.get('homework_name')
-    except IndexError:
+    except KeyError:
         logger.error('Ошибка. "homework_name" отсутствует.')
         raise TypeError('Ошибка. "homework_name" отсутствует.')
     try:
         homework_status = homework.get('status')
-    except IndexError:
+    except KeyError:
         logger.error('Ошибка. "status" отсутствует.')
         raise TypeError('Ошибка. "status" отсутствует.')
     try:
-        verdict = HOMEWORK_STATUSES[f'{homework_status}']
-    except IndexError:
+        verdict = HOMEWORK_STATUSES[homework_status]
+    except KeyError:
         logger.error('Ошибка. "verdict" не соответствует значению.')
-        raise TypeError('Ошибка. "verdict" не соответствует значению.')
+        raise KeyError('Ошибка. "verdict" не соответствует значению.')
     logger.info('Проверен статус домашней работы.')
     return f'Изменился статус проверки работы "{homework_name}". {verdict}'
 
