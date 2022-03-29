@@ -91,23 +91,23 @@ def check_response(response):
 
 def parse_status(homework):
     """Проверка статуса домашнего задания."""
-    try:
-        homework_name = homework.get('homework_name')
-    except KeyError:
+    if homework.get('homework_name') is None:
         logger.error('Ошибка. "homework_name" отсутствует.')
-        raise TypeError('Ошибка. "homework_name" отсутствует.')
-    try:
-        homework_status = homework.get('status')
-    except KeyError:
+        raise KeyError('Ошибка. "homework_name" отсутствует.')
+    else:
+        homework_name = homework.get('homework_name')
+    if homework.get('status') is None:
         logger.error('Ошибка. "status" отсутствует.')
-        raise TypeError('Ошибка. "status" отсутствует.')
-    try:
+        raise KeyError('Ошибка. "status" отсутствует.')
+    else:
+        homework_status = homework.get('status')
+    if homework_status not in HOMEWORK_STATUSES:
+        logger.error('Ошибка статуса. Словарь не содержит такого значения')
+        raise KeyError('Ошибка статуса. Словарь не содержит такого значения')
+    else:
         verdict = HOMEWORK_STATUSES[homework_status]
-    except KeyError:
-        logger.error('Ошибка. "verdict" не соответствует значению.')
-        raise KeyError('Ошибка. "verdict" не соответствует значению.')
-    logger.info('Проверен статус домашней работы.')
-    return f'Изменился статус проверки работы "{homework_name}". {verdict}'
+        logger.info('Проверен статус домашней работы.')
+        return f'Изменился статус проверки работы "{homework_name}". {verdict}'
 
 
 def check_tokens():
